@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('Status'); // nieuw, opgepakt, proefrit, offerte, verkocht, afgevallen
             $table->timestamps();
         });
-    }
+    }                                       
 
     /**
      * Reverse the migrations.

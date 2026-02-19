@@ -3,13 +3,14 @@
 namespace App\http\Controllers\API\V1;
 
 use App\Models\Lead;
-use App\Http\Requests\StoreLeadRequest;
-use App\Http\Requests\UpdateLeadRequest;
 use App\http\Controllers\Controller;
 use App\http\Resources\V1\LeadResource;
 use App\http\Resources\V1\LeadCollection;
-use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Http\Request;
 use App\Filter\V1\LeadsFilter;
+use App\Http\Requests\V1\StoreLeadRequest;
+use App\Http\Requests\V1\UpdateLeadRequest;
+
 class LeadController extends Controller
 {
     /**
@@ -24,7 +25,8 @@ class LeadController extends Controller
         if (count($queryItems) == 0) {
             return new LeadCollection(Lead::paginate());
         } else {
-            return new LeadCollection(Lead::where($queryItems)->paginate());
+            $leads = Lead::where($queryItems)->paginate();
+            return new LeadCollection($leads->appends($request->query())); //adds the filter to links in the pagination
         }
 
         Lead::where($queryItems);
@@ -35,20 +37,13 @@ class LeadController extends Controller
     return new LeadCollection(Lead::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreLeadRequest $request)
     {
-        //
+        return new LeadResource(Lead::create($request->all()));
     }
 
     /**
@@ -61,19 +56,11 @@ class LeadController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Lead $lead)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdateLeadRequest $request, Lead $lead)
     {
-        //
+        $lead->update($request->all());
     }
 
     /**

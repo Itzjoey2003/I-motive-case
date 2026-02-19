@@ -9,4 +9,11 @@ class Lead extends Model
 {
     /** @use HasFactory<\Database\Factories\LeadFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'Name',
+        'Email',
+        'Source',
+        'Status'
+    ];
 }
