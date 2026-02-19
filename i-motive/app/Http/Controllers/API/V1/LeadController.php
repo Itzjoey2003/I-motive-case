@@ -23,9 +23,9 @@ class LeadController extends Controller
 
         // if no filters apply, show everything
         if (count($queryItems) == 0) {
-            return new LeadCollection(Lead::paginate());
+            return new LeadCollection(Lead::all());
         } else {
-            $leads = Lead::where($queryItems)->paginate();
+            $leads = Lead::where($queryItems)->all();
             return new LeadCollection($leads->appends($request->query())); //adds the filter to links in the pagination
         }
 
