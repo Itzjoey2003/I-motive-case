@@ -17,13 +17,23 @@
         margin: 1rem 3rem 1rem 3rem;
     }
 
-    td{
+    td {
         padding: 1rem;
     }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <body>
+    <select id="statusFilter">
+        <option value="">-- All --</option>
+        <option value="nieuw">nieuw</option>
+        <option value="opgepakt">opgepakt</option>
+        <option value="proefrit">proefrit</option>
+        <option value="offerte">offerte</option>
+        <option value="verkocht">verkocht</option>
+        <option value="afgevallen">afgevallen</option>
+    </select>
+
     <table>
         <thead>
             <tr>
@@ -45,17 +55,26 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
 
-        axios.get('/api/v1/leads')
-            .then(response => {
+        function loadLeads(filter = "") {
 
-                console.log(response.data);
+            let url = "/api/v1/leads";
 
-                const leads = response.data.data; // important
+            if (filter !== "") {
+                url += `?Status[eq]=${filter}`;
+            }
 
-                let tableBody = document.getElementById("leads-table");
+            axios.get(url)
+                .then(response => {
 
-                leads.forEach(lead => {
-                    tableBody.innerHTML += `
+                    console.log(response.data);
+
+                    const leads = response.data.data;
+                    let tableBody = document.getElementById("leads-table");
+
+                    tableBody.innerHTML = "";
+
+                    leads.forEach(lead => {
+                        tableBody.innerHTML += `
                         <tr>
                             <td>${lead.id}</td>
                             <td>${lead.name}</td>
@@ -64,15 +83,22 @@
                             <td>${lead.source}</td>
                         </tr>
                     `;
-                });
+                    });
 
-            })
-            .catch(error => {
-                console.error(error);
+                })
+                .catch(error => console.error(error));
+        }
+
+        // Load all leads on page load
+        loadLeads();
+
+        // Dropdown listener
+        document.getElementById("statusFilter")
+            .addEventListener("change", function() {
+                loadLeads(this.value);
             });
 
     });
 </script>
-
 
 </html>
