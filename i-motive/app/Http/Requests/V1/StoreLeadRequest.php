@@ -24,7 +24,7 @@ class StoreLeadRequest extends FormRequest
     {
         return [
             'Name' => ['required', 'min:2'],
-            'Email' => ['required', 'email'],
+            'Email' => ['required', 'email', 'unique:leads,Email'],
             'Source' => ['required', Rule::in(['website', 'e-mail', 'telefoon', 'whatsapp', 'showroom', 'overig',])],
             'Status' => ['required', Rule::in(['nieuw', 'opgepakt', 'proefrit', 'offerte', 'verkocht', 'afgevallen',])],
         ];

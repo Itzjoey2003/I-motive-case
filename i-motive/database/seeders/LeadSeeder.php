@@ -14,6 +14,7 @@ class LeadSeeder extends Seeder
      */
     public function run(): void
     {
+        //creates 25 randomized records in the leads table
         Lead::factory()->count(25)->create();
     }
 }

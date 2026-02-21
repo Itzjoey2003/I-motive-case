@@ -9,3 +9,83 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+    table {
+        padding: 3rem;
+    }
+
+    #EmailColumn {
+        margin: 1rem 3rem 1rem 3rem;
+    }
+
+    td {
+        padding: 1rem;
+    }
+
+    #pageContainer{
+        display: flex;
+        flex-direction: row;
+    }
+
+    #recordsTable{
+        max-width: 70vw;
+    }
+
+    #formDiv{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    h1{
+        font-size: x-large;
+    }
+
+    #filter{
+        margin: 1rem 0rem 1rem 1rem;
+    }
+
+    header{
+        background-color:rgb(92, 110, 110);
+        padding: 1rem 0rem 1rem 2rem;
+        margin: 0 0 1rem 0;
+    }
+
+    input{
+        border-style: solid;        
+        border-color: black;
+        border-width: 1px;
+    }
+
+    select{
+        border-style: solid;        
+        border-color: black;
+        border-width: 1px;
+    }
+
+    #saveButton{
+        background-color: rgb(88, 252, 96);
+        padding: 0.25rem;
+        margin-top: 5%;
+        width: 100%;
+    }
+
+    .formItems{
+        display: flex;
+        flex-direction: column;
+    }
+
+    form{
+        margin: 5%;
+    }
+
+    tr, td {
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+    }
+
+    table {
+        margin-left: 1rem;
+    }

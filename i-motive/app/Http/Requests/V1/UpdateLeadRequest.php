@@ -26,17 +26,17 @@ class UpdateLeadRequest extends FormRequest
     {
         $method = $this->method();
         if ($method == "PUT") {
-                return [
+            return [
                 'Name' => ['required', 'min:2'],
                 'Email' => ['required', 'email'],
                 'Source' => ['required', Rule::in(['website', 'e-mail', 'telefoon', 'whatsapp', 'showroom', 'overig',])],
                 'Status' => ['required', Rule::in(['nieuw', 'opgepakt', 'proefrit', 'offerte', 'verkocht', 'afgevallen',])],
             ];
         } else {
-            // 'sometimes' rule makes it so that if the field is not present, it won't be checked for validation 
-             return [
+            // 'sometimes' rule makes it so that if the field is not present, it won't be checked for validation (mostly for patch requests)
+            return [
                 'Name' => ['sometimes', 'required', 'min:2'],
-                'Email' => ['sometimes', 'required', 'email'],
+                'Email' => ['required', 'email', 'unique:leads,Email'],
                 'Source' => ['sometimes', 'required', Rule::in(['website', 'e-mail', 'telefoon', 'whatsapp', 'showroom', 'overig',])],
                 'Status' => ['sometimes', 'required', Rule::in(['nieuw', 'opgepakt', 'proefrit', 'offerte', 'verkocht', 'afgevallen',])],
             ];

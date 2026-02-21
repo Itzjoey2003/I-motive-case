@@ -22,19 +22,13 @@ class LeadController extends Controller
         $queryItems = $filter->Transform($request); // [['column', 'operator', 'value']]
 
         // if no filters apply, show everything
+        // Most recent updated at gets filtered to the top
         if (count($queryItems) == 0) {
-            return new LeadCollection(Lead::all());
+            return new LeadCollection(Lead::orderBy('updated_at', 'desc')->get());
         } else {
-            $leads = Lead::where($queryItems)->all();
-            return new LeadCollection($leads->appends($request->query())); //adds the filter to links in the pagination
+            $leads = Lead::where($queryItems)->orderBy('updated_at', 'desc')->get();
+            return new LeadCollection(Lead::where($queryItems)->orderBy('updated_at', 'desc')->get()); //adds the filter to links
         }
-
-        Lead::where($queryItems);
-        
-    
-    
-    
-    return new LeadCollection(Lead::all());
     }
 
 
@@ -68,6 +62,7 @@ class LeadController extends Controller
      */
     public function destroy(Lead $lead)
     {
-        //
+        $lead->destroy($lead->all());
+
     }
 }
