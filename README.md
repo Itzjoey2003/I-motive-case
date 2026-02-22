@@ -1,19 +1,20 @@
 # I-motive case
 
 
-##Installatie
+## Installatie
 Ik heb gewerkt met xampp voor de database.
-### 1 
-PHP – minimaal versie 8.1 (afhankelijk van je Laravel-versie)
+### 1 vereisten
+PHP – minimaal versie 8.1 
 
-Composer – voor PHP dependencies
+Composer
 
-Database – MySQL, MariaDB, SQLite, of PostgreSQL (wat jij gebruikt)
+Database – MySQL
 
-Node.js + npm – voor frontend bundling met Vite
+Node.js + npm – om de front-end te kunnen starten
 
-Git – om het repository te clonen
+Git – om mijn repository te clonen
 
+2. 
 
 ## keuzes
 Eerlijk gezegd heb ik niet heel veel invloed gehad op de structuur, dit was voor mij de eerste keer werken met het opzetten van een API, een super leuke uitdaging en ik heb er zeker wat van kunnen leren. Maar om het te leren heb ik een YouTube tutorial gevolgd en die stappen heb ik gevolgd om te zorgen dat het werkt.
