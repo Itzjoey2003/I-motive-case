@@ -20,14 +20,19 @@ class LeadController extends Controller
     {
         $filter = new LeadsFilter();
         $queryItems = $filter->Transform($request); // [['column', 'operator', 'value']]
+        $direction = $request->get('direction', 'desc');
+
+        $direction = strtolower($request->get('direction', 'desc'));
+        if (!in_array($direction, ['asc', 'desc'])) {
+            $direction = 'desc';
+        }
 
         // if no filters apply, show everything
         // Most recent updated at gets filtered to the top
         if (count($queryItems) == 0) {
-            return new LeadCollection(Lead::orderBy('updated_at', 'desc')->get());
+            return new LeadCollection(Lead::orderBy('updated_at', $direction)->get());
         } else {
-            $leads = Lead::where($queryItems)->orderBy('updated_at', 'desc')->get();
-            return new LeadCollection(Lead::where($queryItems)->orderBy('updated_at', 'desc')->get()); //adds the filter to links
+            return new LeadCollection(Lead::where($queryItems)->orderBy('updated_at', $direction)->get()); //adds the filter to links
         }
     }
 
@@ -45,8 +50,7 @@ class LeadController extends Controller
      */
     public function show(Lead $lead)
     {
-      return new LeadResource($lead);
-
+        return new LeadResource($lead);
     }
 
     /**
@@ -62,7 +66,6 @@ class LeadController extends Controller
      */
     public function destroy(Lead $lead)
     {
-        $lead->destroy($lead->all());
-
+        $lead->delete();
     }
 }

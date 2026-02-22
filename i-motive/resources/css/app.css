@@ -89,3 +89,22 @@
     table {
         margin-left: 1rem;
     }
+
+    #filter{
+        display: flex;
+    }
+
+    .filterOption{
+        margin: 0 1rem 0 1rem;
+    }
+
+    #statusFilter{
+        width: 100%;
+    }
+
+    #sortButton{
+        border-style: solid;
+        border-color: black;
+        border-width: 1px;
+        margin-left: 1rem;
+    }

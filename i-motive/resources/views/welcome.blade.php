@@ -16,16 +16,25 @@
     <div id="pageContainer">
         <div id="recordsTable">
             <div id="filter">
-                <h4>Filter op status</h4>
-                <select id="statusFilter">
-                    <option value="">-- All --</option>
-                    <option value="nieuw">nieuw</option>
-                    <option value="opgepakt">opgepakt</option>
-                    <option value="proefrit">proefrit</option>
-                    <option value="offerte">offerte</option>
-                    <option value="verkocht">verkocht</option>
-                    <option value="afgevallen">afgevallen</option>
-                </select>
+                <div class="filterOption">
+                    <h4>Filter op status</h4>
+                    <select id="statusFilter">
+                        <option value="">-- All --</option>
+                        <option value="nieuw">nieuw</option>
+                        <option value="opgepakt">opgepakt</option>
+                        <option value="proefrit">proefrit</option>
+                        <option value="offerte">offerte</option>
+                        <option value="verkocht">verkocht</option>
+                        <option value="afgevallen">afgevallen</option>
+                    </select>
+                </div>
+                <div>
+                    <h4>Zoek op naam of e-mail</h4>
+                    <input type="text" id="searchBar" name="Name">
+                </div>
+                <div>
+                    <button id="sortButton">Sort by last updated</button>
+                </div>
             </div>
             <table>
                 <thead>
@@ -131,21 +140,21 @@
                 <button id="saveButton" type="submit">Lead wijzigen</button>
             </form>
             <div id="successMessage"></div>
-             <div>
-            <form id="deleteForm">
-                @csrf
-                <h3>Verwijder Lead</h3>
+            <div>
+                <form id="deleteForm">
+                    @csrf
+                    <h3>Verwijder Lead</h3>
 
-                <div class="formItems">
-                    <label for="id">Lead ID</label>
-                    <input type="number" id="setLeadIdForDelete" name="Id" required>
-                </div>
+                    <div class="formItems">
+                        <label for="id">Lead ID</label>
+                        <input type="number" id="setLeadIdForDelete" name="Id" required>
+                    </div>
 
-                <button id="saveButton" type="submit">Lead verwijderen</button>
-            </form>
+                    <button id="saveButton" type="submit">Lead verwijderen</button>
+                </form>
+            </div>
         </div>
-        </div>
-       
+
     </div>
     </div>
 
@@ -158,49 +167,73 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
 
-        // loads the table with all leads records
-        function loadLeads(filter = "") {
+        let currentSortDirection = "desc";
+        // if the direction is asc, change to desc. Otherwise change to asc
+        document.getElementById("sortButton")
+            .addEventListener("click", function() {
+                currentSortDirection = currentSortDirection === "asc" ? "desc" : "asc";
+                console.log(`${currentSortDirection}`)
+                loadLeads();
+            });
 
-            let url = "/api/v1/leads";
+        // loads the table with all leads
+        function loadLeads(statusFilter = "", searchBar = "") {
 
-            if (filter !== "") {
-                url += `?Status[eq]=${filter}`;
+            let url = `/api/v1/leads?direction=${currentSortDirection}`;
+
+            // Adds status filter if there is one
+            if (statusFilter !== "") {
+                url += `&Status[eq]=${statusFilter}`;
             }
 
             axios.get(url)
                 .then(response => {
 
-                    console.log(response.data);
-
                     const leads = response.data.data;
                     let tableBody = document.getElementById("leads-table");
-
                     tableBody.innerHTML = "";
 
-                    leads.forEach(lead => {
+                    // filters for records matching the name or email
+                    const filteredLeads = leads.filter(lead => {
+                        const nameMatch = lead.name.toLowerCase().includes(searchBar.toLowerCase());
+                        const emailMatch = lead.Email.toLowerCase().includes(searchBar.toLowerCase());
+                        return nameMatch || emailMatch;
+                    });
+
+                    // Build table rows
+                    filteredLeads.forEach(lead => {
                         tableBody.innerHTML += `
-                        <tr>
-                            <td>${lead.id}</td>
-                            <td>${lead.name}</td>
-                            <td>${lead.Email}</td>
-                            <td>${lead.status}</td>
-                            <td>${lead.source}</td>
-                        </tr>
-                    `;
+                    <tr>
+                        <td>${lead.id}</td>
+                        <td>${lead.name}</td>
+                        <td>${lead.Email}</td>
+                        <td>${lead.status}</td>
+                        <td>${lead.source}</td>
+                    </tr>
+                `;
                     });
 
                 })
                 .catch(error => console.error(error));
         }
 
+
+
+
         // Load all leads on page load
         loadLeads();
 
-        // Dropdown listener for filters
-        document.getElementById("statusFilter")
-            .addEventListener("change", function() {
-                loadLeads(this.value);
-            });
+        // listens for changes in the status filter
+        document.getElementById("statusFilter").addEventListener("change", function() {
+            const searchValue = document.getElementById("searchBar").value;
+            loadLeads(this.value, searchValue);
+        });
+
+        // listens for changes in the searchbar
+        document.getElementById("searchBar").addEventListener("input", function() {
+            const statusValue = document.getElementById("statusFilter").value;
+            loadLeads(statusValue, this.value);
+        });
 
         //create new lead form API request
         document.getElementById('postForm').addEventListener('submit', function(e) {
@@ -210,8 +243,7 @@
 
             axios.post("{{ route('leads.store') }}", formData)
                 .then(response => {
-                    document.getElementById('successMessage').innerHTML =
-                        '<p style="color: green;">Lead succesvol aangemaakt!</p>';
+                    console.log("Lead succesfully created")
 
                     document.getElementById('postForm').reset();
                     loadLeads();
@@ -219,17 +251,6 @@
                 })
                 .catch(error => {
                     console.log(error.response.data);
-
-                    if (error.response.status === 422) {
-                        let errors = error.response.data.errors;
-
-
-
-                        Object.keys(errors).forEach(function(key) {
-                            document.getElementById('error-' + key).innerHTML =
-                                '<p style="color:red;">' + errors[key][0] + '</p>';
-                        });
-                    }
                 });
         });
 
@@ -255,17 +276,6 @@
                 })
                 .catch(error => {
                     console.log(error.response.data);
-
-                    if (error.response.status === 422) {
-                        let errors = error.response.data.errors;
-
-
-
-                        Object.keys(errors).forEach(function(key) {
-                            document.getElementById('error-' + key).innerHTML =
-                                '<p style="color:red;">' + errors[key][0] + '</p>';
-                        });
-                    }
                 });
         });
 
@@ -274,11 +284,11 @@
             e.preventDefault();
 
             let formData = new FormData(this);
-            let leadId = document.getElementById('setLeadId').value; //sets the leadID in the update form
+            let leadId = document.getElementById('setLeadIdForDelete').value; //sets the leadID in the delete form
 
             axios.delete(`/api/v1/leads/${leadId}`)
                 .then(response => {
-                    console.log("Lead succesfully updated")
+                    console.log("Lead succesfully deleted")
 
                     document.getElementById('deleteForm').reset();
                     loadLeads();
@@ -286,18 +296,15 @@
                 })
                 .catch(error => {
                     console.log(error.response.data);
-
-                    if (error.response.status === 422) {
-                        let errors = error.response.data.errors;
-
-
-
-                        Object.keys(errors).forEach(function(key) {
-                            document.getElementById('error-' + key).innerHTML =
-                                '<p style="color:red;">' + errors[key][0] + '</p>';
-                        });
-                    }
                 });
+        });
+
+        // Update search by name or email live
+        document.getElementById('searchBar').addEventListener('input', function() {
+            let query = this.value.toLowerCase(); // get typed value
+
+            // Reload the table with filtered results
+            loadLeads(query);
         });
 
     });
