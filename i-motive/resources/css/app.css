@@ -106,5 +106,9 @@
         border-style: solid;
         border-color: black;
         border-width: 1px;
+        padding: 0 3% 0 3%;
+    }
+
+    #sortButtonDiv{
         margin-left: 1rem;
     }

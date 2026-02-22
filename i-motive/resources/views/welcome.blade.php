@@ -32,8 +32,9 @@
                     <h4>Zoek op naam of e-mail</h4>
                     <input type="text" id="searchBar" name="Name">
                 </div>
-                <div>
-                    <button id="sortButton">Sort by last updated</button>
+                <div id="sortButtonDiv">
+                    <h4>Sorteer op laatst geupdate</h4>
+                    <button id="sortButton">Sort Ascending ↑</button>
                 </div>
             </div>
             <table>
@@ -169,12 +170,22 @@
 
         let currentSortDirection = "desc";
         // if the direction is asc, change to desc. Otherwise change to asc
-        document.getElementById("sortButton")
-            .addEventListener("click", function() {
-                currentSortDirection = currentSortDirection === "asc" ? "desc" : "asc";
-                console.log(`${currentSortDirection}`)
-                loadLeads();
-            });
+        document.getElementById("sortButton").addEventListener("click", function() {
+            currentSortDirection = currentSortDirection === "asc" ? "desc" : "asc";
+            // update button text based on current direction
+            this.innerText =
+                currentSortDirection === "asc" ?
+                "Sort Descending ↓" :
+                "Sort Ascending ↑";
+
+            console.log(`${currentSortDirection}`);
+
+            // reload the table with the new sort direction
+            loadLeads(
+                document.getElementById("statusFilter").value,
+                document.getElementById("searchBar").value
+            );
+        });
 
         // loads the table with all leads
         function loadLeads(statusFilter = "", searchBar = "") {
@@ -216,9 +227,6 @@
                 })
                 .catch(error => console.error(error));
         }
-
-
-
 
         // Load all leads on page load
         loadLeads();
@@ -298,15 +306,6 @@
                     console.log(error.response.data);
                 });
         });
-
-        // Update search by name or email live
-        document.getElementById('searchBar').addEventListener('input', function() {
-            let query = this.value.toLowerCase(); // get typed value
-
-            // Reload the table with filtered results
-            loadLeads(query);
-        });
-
     });
 </script>
 
