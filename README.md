@@ -30,6 +30,7 @@ Git – om mijn repository te clonen
 
 ## keuzes
 Eerlijk gezegd heb ik niet heel veel invloed gehad op de structuur, dit was voor mij de eerste keer werken met het opzetten van een API, een super leuke uitdaging en ik heb er zeker wat van kunnen leren. Maar om het te leren heb ik een YouTube tutorial gevolgd en die stappen heb ik gevolgd om te zorgen dat het werkt.
+
 Omdat dit de eerste keer is dat ik werk met het opzetten van een API heb ik me daarom eigenlijk alleen maar verdiept in het neerzetten van een functionele pagina en niet eentje die er mooi uitziet.
 
 ## Verbeterpunten
