@@ -19,7 +19,7 @@ Git – om mijn repository te clonen
 2. in je terminal, run: composer install
 3. in je terminal, run: npm install
 4. Verander .env.example naar .env
-5. Maak een database aan in je phpMyAdmin (of andere installatie die je gebruikt) met de naam i-motive, anders kan je ook de .env file aanpassen en 'DB_DATABASE=i_motive' omzetten naar 'DB_DATABASE={insert_jouw_database_naam}'als je al een database hebt aangemaakt met een andere naam
+5. Maak een database aan in je phpMyAdmin (of andere installatie die je gebruikt) met de naam i_motive, anders kan je ook de .env file aanpassen en 'DB_DATABASE=i_motive' omzetten naar 'DB_DATABASE={insert_jouw_database_naam}'als je al een database hebt aangemaakt met een andere naam
 6. in je terminal, run: php artisan migrate
 7. in je terminal, run: php artisan db:seed --class=LeadSeeder
 8. in je terminal, run: php artisan key:generate
