@@ -34,7 +34,7 @@
                 </div>
                 <div id="sortButtonDiv">
                     <h4>Sorteer op laatst geupdate</h4>
-                    <button id="sortButton">Sort Ascending ↑</button>
+                    <button id="sortButton">Sorteer op laatst gewijzigd ↑</button>
                 </div>
             </div>
             <table>
@@ -172,11 +172,11 @@
         // if the direction is asc, change to desc. Otherwise change to asc
         document.getElementById("sortButton").addEventListener("click", function() {
             currentSortDirection = currentSortDirection === "asc" ? "desc" : "asc";
-            // update button text based on current direction
+            // update button text based on current sorting
             this.innerText =
                 currentSortDirection === "asc" ?
-                "Sort Descending ↓" :
-                "Sort Ascending ↑";
+                "Sorteer op laatst gewijzigd ↓" :
+                "Sorteer op laatst gewijzigd ↑";
 
             console.log(`${currentSortDirection}`);
 
