@@ -14,13 +14,26 @@ Node.js + npm – om de front-end te kunnen starten
 
 Git – om mijn repository te clonen
 
-2. 
+### 2 Volg de volgende stappen
+1. Navigeer in je terminal naar de i-motive folder
+2. in je terminal, run: composer install
+3. in je terminal, run: npm install
+4. Verander .env.example naar .env
+5. Maak een database aan in je phpMyAdmin (of andere installatie die je gebruikt) met de naam i_motive, anders kan je ook de .env file aanpassen en 'DB_DATABASE=i_motive' omzetten naar 'DB_DATABASE={insert_jouw_database_naam}'als je al een database hebt aangemaakt met een andere naam
+6. in je terminal, run: php artisan migrate
+7. in je terminal, run: php artisan db:seed --class=LeadSeeder
+8. in je terminal, run: php artisan key:generate
+9. in je terminal, run: npm run build
+10. in je terminal, run php artisan serve
+11. Ga naar localhost:8000 in je web browser en zie het resultaat
+ 
 
 ## keuzes
 Eerlijk gezegd heb ik niet heel veel invloed gehad op de structuur, dit was voor mij de eerste keer werken met het opzetten van een API, een super leuke uitdaging en ik heb er zeker wat van kunnen leren. Maar om het te leren heb ik een YouTube tutorial gevolgd en die stappen heb ik gevolgd om te zorgen dat het werkt.
+
 Omdat dit de eerste keer is dat ik werk met het opzetten van een API heb ik me daarom eigenlijk alleen maar verdiept in het neerzetten van een functionele pagina en niet eentje die er mooi uitziet.
 
-##Verbeterpunten
+## Verbeterpunten
 Er zijn een aantal punten die ik zou willen verbeteren aan wat ik nu heb
 1. Een detail pagina, op deze manier kan een gebruiker meer zien of info krijgen dan in een kleine table. Hoe groter een tabel uiteindelijk wordt hoe beter het is in mijn mening om hier een detail pagina voor op te zetten. Ik zou dan ook meteen de update form op deze detail pagina neerzetten met het ID al ingevuld.
 2. Ik zou een delete button maken die in een column aan de rechterkant van de tafel staat ipv wat ik nu gedaan heb doormiddel van een form. Ook zou ik er een mooie pop-up bij maken die vraagt of je zeker weten de delete actie wilt uitvoeren. Nu is het done and dusted als je op de knop drukt
