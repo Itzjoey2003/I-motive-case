@@ -102,9 +102,9 @@
                     </select>
                 </div>
 
-                <div style="margin-top: 15px;">
-                    <button type="submit">Lead opslaan</button>
-                    <button type="button" id="closeCreateDialog">Annuleren</button>
+                <div class="dialogButtonsDiv">
+                    <button type="submit" class="dialogButton">Lead opslaan</button>
+                    <button type="button" class="dialogButton" id="closeCreateDialog">Annuleren</button>
                 </div>
             </form>
         </dialog>
@@ -153,9 +153,11 @@
                         <option value="afgevallen">Afgevallen</option>
                     </select>
                 </div>
+                <div class="dialogButtonsDiv">
+                    <button id="saveButton" type="submit" class="dialogButton">Lead wijzigen</button>
+                    <button type="button" id="closeUpdateDialog" class="dialogButton">Annuleren</button>
 
-                <button id="saveButton" type="submit">Lead wijzigen</button>
-                <button type="button" id="closeUpdateDialog">Annuleren</button>
+                </div>
 
             </form>
         </dialog>

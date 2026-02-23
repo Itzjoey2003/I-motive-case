@@ -57,13 +57,6 @@ select {
     border-width: 1px;
 }
 
-#saveButton {
-    background-color: rgb(88, 252, 96);
-    padding: 0.25rem;
-    margin-top: 5%;
-    width: 100%;
-}
-
 .delete-btn {
     background-color: rgb(255, 87, 87);
     border-radius: 0px;
@@ -118,6 +111,7 @@ table {
 
 #statusFilter {
     width: 100%;
+    cursor: pointer;
 }
 
 #sortButton {
@@ -175,11 +169,15 @@ h1 {
 }
 
 button, #openCreateDialog, #openUpdateDialog {
-    border-radius: 5px;
     padding: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
+
+
 #openCreateDialog, #openUpdateDialog, #searchBar, #statusFilter {
+    border-radius: 5px;
     border-style: solid;
     border-color: black;
     border-width: 1px;
@@ -195,4 +193,19 @@ button, #openCreateDialog, #openUpdateDialog {
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.dialogButton{
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    padding: 0.25rem;
+}
+
+.dialogButtonsDiv{
+    margin-top: 5%;
+}
+
+h2{
+    font-size: large;
 }
