@@ -13,30 +13,37 @@
 </header>
 
 <body>
+    <div id="filter">
+        <div class="filterOption">
+            <h4>Filter op status</h4>
+            <select id="statusFilter">
+                <option value="">-- All --</option>
+                <option value="nieuw">nieuw</option>
+                <option value="opgepakt">opgepakt</option>
+                <option value="proefrit">proefrit</option>
+                <option value="offerte">offerte</option>
+                <option value="verkocht">verkocht</option>
+                <option value="afgevallen">afgevallen</option>
+            </select>
+        </div>
+        <div>
+            <h4>Zoek op naam of e-mail</h4>
+            <input type="text" id="searchBar" name="Name">
+        </div>
+        <div id="sortButtonDiv">
+            <h4>Sorteer op laatst geupdate</h4>
+            <button id="sortButton">Sorteer op laatst gewijzigd ↑</button>
+        </div>
+        <div>
+            <button id="openCreateDialog">Nieuwe lead toevoegen</button>
+        </div>
+        <div>
+            <button id="openUpdateDialog">Lead updaten</button>
+        </div>
+    </div>
     <div id="pageContainer">
         <div id="recordsTable">
-            <div id="filter">
-                <div class="filterOption">
-                    <h4>Filter op status</h4>
-                    <select id="statusFilter">
-                        <option value="">-- All --</option>
-                        <option value="nieuw">nieuw</option>
-                        <option value="opgepakt">opgepakt</option>
-                        <option value="proefrit">proefrit</option>
-                        <option value="offerte">offerte</option>
-                        <option value="verkocht">verkocht</option>
-                        <option value="afgevallen">afgevallen</option>
-                    </select>
-                </div>
-                <div>
-                    <h4>Zoek op naam of e-mail</h4>
-                    <input type="text" id="searchBar" name="Name">
-                </div>
-                <div id="sortButtonDiv">
-                    <h4>Sorteer op laatst geupdate</h4>
-                    <button id="sortButton">Sorteer op laatst gewijzigd ↑</button>
-                </div>
-            </div>
+
             <table>
                 <thead>
                     <tr>
@@ -51,10 +58,11 @@
                 </tbody>
             </table>
         </div>
-        <div id="formDiv">
-            <form id="postForm">
+        <dialog id="createDialog">
+            <form id="postForm" method="dialog">
                 @csrf
                 <h3>Create new lead</h3>
+
                 <div class="formItems">
                     <label for="name">Naam</label>
                     <input type="text" id="postName" name="Name" required>
@@ -91,8 +99,13 @@
                     </select>
                 </div>
 
-                <button id="saveButton" type="submit">Lead opslaan</button>
+                <div style="margin-top: 15px;">
+                    <button type="submit">Lead opslaan</button>
+                    <button type="button" id="closeCreateDialog">Annuleren</button>
+                </div>
             </form>
+        </dialog>
+        <dialog id="updateDialog">
             <form id="putForm">
                 @csrf
                 <h3>update Lead</h3>
@@ -139,22 +152,11 @@
                 </div>
 
                 <button id="saveButton" type="submit">Lead wijzigen</button>
+                <button type="button" id="closeUpdateDialog">Annuleren</button>
+
             </form>
-            <div id="successMessage"></div>
-            <div>
-                <form id="deleteForm">
-                    @csrf
-                    <h3>Verwijder Lead</h3>
-
-                    <div class="formItems">
-                        <label for="id">Lead ID</label>
-                        <input type="number" id="setLeadIdForDelete" name="Id" required>
-                    </div>
-
-                    <button id="saveButton" type="submit">Lead verwijderen</button>
-                </form>
-            </div>
-        </div>
+        </dialog>
+    </div>
 
     </div>
     </div>
@@ -167,6 +169,28 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+
+        const createDialog = document.getElementById("createDialog");
+
+        document.getElementById("openCreateDialog").addEventListener("click", function() {
+            createDialog.showModal();
+        });
+
+        document.getElementById("closeCreateDialog").addEventListener("click", function() {
+            createDialog.close();
+        });
+
+        const updateDialog = document.getElementById("updateDialog");
+
+        // Open the update dialog
+        document.getElementById("openUpdateDialog").addEventListener("click", function() {
+            updateDialog.showModal();
+        });
+
+        // Close the update dialog
+        document.getElementById("closeUpdateDialog").addEventListener("click", function() {
+            updateDialog.close();
+        });
 
         let currentSortDirection = "desc";
         // if the direction is asc, change to desc. Otherwise change to asc
@@ -211,22 +235,41 @@
                         return nameMatch || emailMatch;
                     });
 
-                    // Build table rows
+                    // generate tables 
                     filteredLeads.forEach(lead => {
                         tableBody.innerHTML += `
-                    <tr>
-                        <td>${lead.id}</td>
-                        <td>${lead.name}</td>
-                        <td>${lead.Email}</td>
-                        <td>${lead.status}</td>
-                        <td>${lead.source}</td>
-                    </tr>
-                `;
+                            <tr>
+                                <td>${lead.id}</td>
+                                <td>${lead.name}</td>
+                                <td>${lead.Email}</td>
+                                <td>${lead.status}</td>
+                                <td>${lead.source}</td>
+                                <td>
+                                    <button class="delete-btn" data-id="${lead.id}">Delete</button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+
+                    // Attach event listeners to the delete buttons AFTER adding them
+                    document.querySelectorAll(".delete-btn").forEach(button => {
+                        button.addEventListener("click", () => {
+                            const leadId = button.getAttribute("data-id");
+
+                            axios.delete(`/api/v1/leads/${leadId}`)
+                                .then(response => {
+                                    console.log(`Lead #${leadId} deleted`);
+                                    loadLeads(); // refresh table
+                                })
+                                .catch(error => console.error(error.response?.data || error));
+                        });
                     });
 
                 })
                 .catch(error => console.error(error));
         }
+
+
 
         // Load all leads on page load
         loadLeads();
@@ -254,6 +297,7 @@
                     console.log("Lead succesfully created")
 
                     document.getElementById('postForm').reset();
+                    createDialog.close();
                     loadLeads();
 
                 })
