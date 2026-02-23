@@ -12,7 +12,3 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\API\V1'], f
     Route::apiResource('leads', LeadController::class);
     }
 );
-
-// Route::post('/leads', [LeadController::class, 'store'])->name('lead.store');
-// Route::put('api/v1/leads/{lead}',[LeadController::class, 'update'])->name('lead.update', 'lead.id');
-// Route::delete('api/v1/leads/{lead}',[LeadController::class, 'destroy'])->name('lead.destroy', 'lead.id');

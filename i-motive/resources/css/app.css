@@ -200,6 +200,11 @@ button, #openCreateDialog, #openUpdateDialog {
     border-color: black;
     border-width: 1px;
     padding: 0.25rem;
+    background-color: rgb(109, 255, 109);
+}
+
+.dialogButton:hover{
+    background-color: rgb(6, 255, 6);
 }
 
 .dialogButtonsDiv{
@@ -208,4 +213,15 @@ button, #openCreateDialog, #openUpdateDialog {
 
 h2{
     font-size: large;
+}
+
+#closeCreateDialog, #closeUpdateDialog{
+    background-color: rgb(255, 87, 87);
+    color: white;
+}
+
+
+
+#closeCreateDialog:hover, #closeUpdateDialog:hover{
+    background-color: red;
 }
