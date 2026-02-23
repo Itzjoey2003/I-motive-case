@@ -47,7 +47,7 @@ h1{
 }
 
 header{
-    background-color:rgb(92, 110, 110);
+    background-color: #1a1a1a;
     padding: 1rem 0rem 1rem 2rem;
     margin: 0 0 1rem 0;
 }
@@ -167,5 +167,10 @@ dialog form {
 }
 
 tr:nth-child(even) {background-color: rgb(224, 224, 224);}
+
+h1{
+    color: #ffffff;
+    text-align: center;
+}
 
 

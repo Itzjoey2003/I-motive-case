@@ -9,7 +9,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <header>
-    <h1>Leads overzicht</h1>
+    <h1>I-motive leads overzicht</h1>
 </header>
 
 <body>
