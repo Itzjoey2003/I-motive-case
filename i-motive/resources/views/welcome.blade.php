@@ -14,32 +14,35 @@
 
 <body>
     <div id="filter">
-        <div class="filterOption">
-            <h4>Filter op status</h4>
-            <select id="statusFilter">
-                <option value="">-- All --</option>
-                <option value="nieuw">nieuw</option>
-                <option value="opgepakt">opgepakt</option>
-                <option value="proefrit">proefrit</option>
-                <option value="offerte">offerte</option>
-                <option value="verkocht">verkocht</option>
-                <option value="afgevallen">afgevallen</option>
-            </select>
+        <div id="leftFilter">
+            <div class="filterOption">
+                <select id="statusFilter">
+                    <option value="">Filter op status</option>
+                    <option value="nieuw">nieuw</option>
+                    <option value="opgepakt">opgepakt</option>
+                    <option value="proefrit">proefrit</option>
+                    <option value="offerte">offerte</option>
+                    <option value="verkocht">verkocht</option>
+                    <option value="afgevallen">afgevallen</option>
+                </select>
+            </div>
+            <div>
+                <input type="text" id="searchBar" name="Name" placeholder="Zoek op naam of e-mail">
+            </div>
+            <div id="sortButtonDiv">
+                <button id="sortButton">Sorteer op laatst gewijzigd ↑</button>
+            </div>
         </div>
-        <div>
-            <h4>Zoek op naam of e-mail</h4>
-            <input type="text" id="searchBar" name="Name">
+        <div id="rightFilter">
+            <div>
+                <button id="openCreateDialog">Nieuwe lead toevoegen</button>
+            </div>
+            <div>
+                <button id="openUpdateDialog">Lead updaten</button>
+            </div>
         </div>
-        <div id="sortButtonDiv">
-            <h4>Sorteer op laatst geupdate</h4>
-            <button id="sortButton">Sorteer op laatst gewijzigd ↑</button>
-        </div>
-        <div>
-            <button id="openCreateDialog">Nieuwe lead toevoegen</button>
-        </div>
-        <div>
-            <button id="openUpdateDialog">Lead updaten</button>
-        </div>
+
+
     </div>
     <div id="pageContainer">
         <div id="recordsTable">
@@ -244,7 +247,7 @@
                                 <td>${lead.Email}</td>
                                 <td>${lead.status}</td>
                                 <td>${lead.source}</td>
-                                <td>
+                                <td id="deleteColumn">
                                     <button class="delete-btn" data-id="${lead.id}">Delete</button>
                                 </td>
                             </tr>
