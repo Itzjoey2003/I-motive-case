@@ -68,6 +68,17 @@ select {
     background-color: rgb(255, 31, 31);
 }
 
+.update-btn {
+    background-color: lightskyblue;
+    border-radius: 0px;
+    color: white;
+}
+
+.update-btn:hover {
+    cursor: pointer;
+    background-color: rgb(101, 196, 255);
+}
+
 .formItems {
     display: flex;
     flex-direction: column;

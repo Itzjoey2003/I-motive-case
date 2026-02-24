@@ -37,9 +37,6 @@
             <div>
                 <button id="openCreateDialog">Nieuwe lead toevoegen</button>
             </div>
-            <div>
-                <button id="openUpdateDialog">Lead updaten</button>
-            </div>
         </div>
 
 
@@ -187,11 +184,6 @@
 
         const updateDialog = document.getElementById("updateDialog");
 
-        // Open the update dialog
-        document.getElementById("openUpdateDialog").addEventListener("click", function() {
-            updateDialog.showModal();
-        });
-
         // Close the update dialog
         document.getElementById("closeUpdateDialog").addEventListener("click", function() {
             updateDialog.close();
@@ -250,6 +242,9 @@
                                 <td>${lead.status}</td>
                                 <td>${lead.source}</td>
                                 <td id="deleteColumn">
+                                    <button class="update-btn" data-id="${lead.id}">Update</button>
+                                </td>
+                                <td id="deleteColumn">
                                     <button class="delete-btn" data-id="${lead.id}">Delete</button>
                                 </td>
                             </tr>
@@ -267,6 +262,29 @@
                                     loadLeads(); // refresh table
                                 })
                                 .catch(error => console.error(error.response?.data || error));
+                        });
+                    });
+
+                    // Attach event listeners to update buttons
+                    document.querySelectorAll(".update-btn").forEach(button => {
+                        button.addEventListener("click", () => {
+
+                            const leadId = button.getAttribute("data-id");
+
+                            // Find the lead data from the already fetched leads array
+                            const leadData = leads.find(l => l.id == leadId);
+
+                            if (!leadData) return;
+
+                            // Prefill the form fields
+                            document.getElementById("setLeadId").value = leadData.id;
+                            document.getElementById("putName").value = leadData.name;
+                            document.getElementById("putEmail").value = leadData.Email;
+                            document.getElementById("putSource").value = leadData.source;
+                            document.getElementById("putStatus").value = leadData.status;
+
+                            // Open dialog
+                            document.getElementById("updateDialog").showModal();
                         });
                     });
 
@@ -328,26 +346,7 @@
                     console.log("Lead succesfully updated")
 
                     document.getElementById('putForm').reset();
-                    loadLeads();
-
-                })
-                .catch(error => {
-                    console.log(error.response.data);
-                });
-        });
-
-        //delete lead form API request
-        document.getElementById('deleteForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            let formData = new FormData(this);
-            let leadId = document.getElementById('setLeadIdForDelete').value; //sets the leadID in the delete form
-
-            axios.delete(`/api/v1/leads/${leadId}`)
-                .then(response => {
-                    console.log("Lead succesfully deleted")
-
-                    document.getElementById('deleteForm').reset();
+                    updateDialog.close();
                     loadLeads();
 
                 })
